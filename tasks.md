@@ -1,65 +1,91 @@
-# 🏀 NBA Hot Hand Tracker – Project Tasks
+# NBA Hot Hand Tracker – Project Tasks
 
-## ✅ Phase 1: Project Setup
-- [x] Initialize GitHub repo and WSL project
-- [x] Set up Git + SSH
-- [x] Create tasks.md for tracking
-- [ ] Set up project folder structure (`backend/`, `frontend/`, `scripts/`)
-- [ ] Initialize backend FastAPI app
-- [ ] Initialize frontend Next.js app
+## Phase 1: Core Dashboard MVP – Hottest Players Today
 
----
+### 1.1 Data Collection and Storage
+- [ ] Set up PostgreSQL schema for players, games, and stats
+- [ ] Write script to fetch last 5 games per player using nba_api
+- [ ] Write script to fetch and store season averages per player
+- [ ] Store game logs and season averages in the database
 
-## 🔁 Phase 2: Data Pipeline
-- [ ] Install and test `nba_api` Python package
-- [ ] Write script to pull game logs (last X games per player)
-- [ ] Store pulled data into PostgreSQL (game stats, players, teams)
-- [ ] Schedule daily data sync (manual first, automate later)
-- [ ] Track season averages per player for baseline comparisons
+### 1.2 Heat Score Calculation
+- [ ] Define and implement initial heat score formula (based on points)
+- [ ] Calculate 5-game rolling average for each player
+- [ ] Compare to season average to produce heat score
+- [ ] Save computed scores to the database
 
----
+### 1.3 Backend API (FastAPI)
+- [ ] Set up FastAPI project and connect to PostgreSQL
+- [ ] Create endpoint: GET /players/hottest
+  - [ ] Return player name, team, position, heat score, rolling avg, season avg
+  - [ ] Support query filters: team, position, min_games
 
-## 🔥 Phase 3: Heat Score Logic
-- [ ] Define what counts as a "hot streak" (rolling average vs season average)
-- [ ] Compute heat scores for each player based on last N games
-- [ ] Save scores into DB for easy querying
-- [ ] Write unit tests to validate calculations
-
----
-
-## ⚙️ Phase 4: FastAPI Backend
-- [ ] Set up endpoints:
-  - [ ] `/players` – list players + filter options
-  - [ ] `/players/{id}` – player details
-  - [ ] `/players/{id}/heat-score` – heat score data
-- [ ] Add pagination, filtering (team, position, etc.)
-- [ ] Enable CORS for frontend access
-- [ ] Document API with OpenAPI docs
+### 1.4 Frontend Dashboard (Next.js)
+- [ ] Set up Next.js project
+- [ ] Create landing page: pages/index.tsx
+- [ ] Fetch and display list of hottest players
+- [ ] Add filter controls: team, position, min_games
 
 ---
 
-## 🖼️ Phase 5: Frontend – Next.js Dashboard
-- [ ] Display hot players list with filter by team/position
-- [ ] Player detail page with heat score trend chart
-- [ ] Visualizations for performance (charts or graphs)
-- [ ] Implement caching or debounce on player filters
-- [ ] Mobile responsiveness
+## Phase 2: Player Detail View
+
+### 2.1 Backend
+- [ ] Create endpoint: GET /players/{id}
+  - [ ] Return player info, recent game stats, season averages
+  - [ ] Include heat score history
+
+### 2.2 Frontend
+- [ ] Create player detail page: pages/player/[id].tsx
+- [ ] Display line graph of selected stat (e.g. points) over recent games
+- [ ] Display season averages and 5-game rolling average
+- [ ] Display recent performance table
 
 ---
 
-## 📦 Phase 6: Containerization & Deployment
-- [ ] Dockerize FastAPI backend
-- [ ] Dockerize frontend
-- [ ] Set up Docker Compose for local dev
-- [ ] Deploy backend (Railway / Render / Fly.io)
-- [ ] Deploy frontend (Vercel)
-- [ ] Write README with usage instructions & screenshots
+## Phase 3: Stat-Based Filtering and Multi-Metric Hotness
+
+### 3.1 Backend Support
+- [ ] Track all relevant metrics: points, rebounds, assists, PRA, PR, RA, PA
+- [ ] Update /players/hottest endpoint to accept a stat filter (e.g. ?stat=pra)
+
+### 3.2 Frontend Integration
+- [ ] Add dropdown or tab selector for stat type on dashboard
+- [ ] Update player detail chart to reflect selected stat
+- [ ] Ensure filters apply consistently across API and UI
 
 ---
 
-## ✅ Bonus (Optional Polish)
-- [ ] Add cron job or GitHub Action to auto-update game data daily
-- [ ] Add player comparison feature
-- [ ] Add loading states and error messages to UI
-- [ ] Add analytics (e.g. most improved players)
+## Phase 4: Advanced Features and Enhancements
+
+### 4.1 Hot Teams View
+- [ ] Aggregate team-level heat scores based on players
+- [ ] Create new API endpoint: GET /teams/hottest
+- [ ] Display hot team rankings on frontend
+
+### 4.2 Predictive Analysis (Stretch Goal)
+- [ ] Build simple trend predictor based on heat score trajectory
+- [ ] Add predictive marker to player detail view
+
+### 4.3 UI/UX and Visual Polish
+- [ ] Add player photos, team logos, and color coding
+- [ ] Improve mobile responsiveness and styling
+- [ ] Add tooltips and loading states
+
+---
+
+## Phase 5: DevOps and Deployment
+
+- [ ] Dockerize backend (FastAPI) and frontend (Next.js)
+- [ ] Write docker-compose.yml to run both services locally
+- [ ] Deploy backend to Railway or Render
+- [ ] Deploy frontend to Vercel
+- [ ] Add a production-ready README with instructions and screenshots
+
+---
+
+## Optional: Automation and Monitoring
+- [ ] Add daily data update script using cron or GitHub Actions
+- [ ] Add logging and error alerts for data jobs
+- [ ] Add optional unit and integration tests for core functions
 
